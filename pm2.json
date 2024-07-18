@@ -1,0 +1,8 @@
+{
+  "apps": [
+    {
+      "name": "Claim",
+      "script": "nodemon index.js"
+    }
+  ]
+}
