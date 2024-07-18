@@ -77,7 +77,7 @@ app.post("/getSignedUrl", cors(), async (req, res) => {
         const { filename, type } = req.body;
         const extension = filename.split(".").pop();
         const documentId = uuidv4();
-        
+
         const signedUrl = await s3.getSignedUrlPromise('putObject', {
             Bucket: bucketName,
             Key: `${documentId}.${extension}`,
@@ -100,7 +100,9 @@ app.post("/getSignedUrl", cors(), async (req, res) => {
         res.status(500).json({ error: e.message })
     }
 })
-
+app.get('/test', (req, res) => {
+    res.status(200).send('Server is running properly');
+});
 app.use(webdav.extensions.express('/', server));
 
 app.listen(1901);
