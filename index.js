@@ -53,7 +53,7 @@ const server = new webdav.WebDAVServer({
     httpAuthentication: new HTTPNoAuthentication(userManager, 'Default realm')
 });
 
-server.setFileSystem('/webdav', new S3FileSystem(), (success) => {
+server.setFileSystem('/api/v1/webdav', new S3FileSystem(), (success) => {
     console.log('READY');
 })
 
@@ -62,7 +62,7 @@ server.beforeRequest((arg, next) => {
     next();
 });
 
-app.get("/getFiles", cors(), async (req, res) => {
+app.get("/api/v1/getFiles", cors(), async (req, res) => {
     try {
         const files = await DocumentModel.find({});
         res.status(200).json({ files })
@@ -71,7 +71,7 @@ app.get("/getFiles", cors(), async (req, res) => {
     }
 });
 
-app.post("/getSignedUrl", cors(), async (req, res) => {
+app.post("/api/v1/getSignedUrl", cors(), async (req, res) => {
     try {
         const s3 = new AWS.S3({ region: 'us-east-2' });
         const { filename, type } = req.body;
@@ -100,7 +100,7 @@ app.post("/getSignedUrl", cors(), async (req, res) => {
         res.status(500).json({ error: e.message })
     }
 })
-app.get('/test', (req, res) => {
+app.get('/api/v1/test', (req, res) => {
     res.status(200).send('Server is running properly');
 });
 app.use(webdav.extensions.express('/', server));
