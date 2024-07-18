@@ -10,7 +10,7 @@ function App() {
   const [refresh, setRefresh] = useState(false);
 
   const getFiles = async () => {
-    const response = await axios.get('https://easytipping.us/getFiles');
+    const response = await axios.get('https://easytipping.us/api/v1/getFiles');
     setFiles(response.data.files);
   }
   useEffect(() => {
@@ -41,7 +41,7 @@ function App() {
   };
 
   const onOpen = (id, extension) => {
-    const webDavUrl = `${getLocalClient(extension)}:ofe|u|https://easytipping.us/webdav/${id}/latest/document.${extension}`
+    const webDavUrl = `${getLocalClient(extension)}:ofe|u|https://easytipping.us/api/v1/webdav/${id}/latest/document.${extension}`
     window.open(webDavUrl);
   }
 
@@ -54,7 +54,7 @@ function App() {
 
   const handleFileSelect = async (event) => {
     const selectedFile = event.target.files[0]
-    const signedUrlResponse = await axios.post('https://easytipping.us/getSignedUrl', {
+    const signedUrlResponse = await axios.post('https://easytipping.us/api/v1/getSignedUrl', {
       filename: selectedFile.name,
       type: selectedFile.type
     })
